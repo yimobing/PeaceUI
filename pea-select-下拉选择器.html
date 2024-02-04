@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="网站名称">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>pea-select下拉选择器</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link type="text/css" rel="stylesheet" href="assets/peace-ui/style.css">
+</head>
+<body>
+    <style scoped>
+        
+    </style>
+
+    <div class="wrap">
+        <h1>pea-select 下拉选择器</h1>
+
+        <div id="app">
+            <div class="operate">
+                <div class="box">
+                    <span>律师</span>
+                    <pea-select
+                        v-model="lawyerValue"
+                        :remote-source="lawyerData" 
+                        @remote-method="handleLawyerRemoteMethod"
+                        @option-change="handleLawyerOptionChange">
+                    </pea-select>
+                </div><!--/.box-->
+
+                <div class="box">
+                    <span>案由</span>
+                    <pea-select
+                        v-model="causeValue"
+                        :remote-source="causeData" 
+                        @remote-method="handleCauseRemoteMethod"
+                        @option-change="handleCauseOptionChange">
+                    </pea-select>
+                </div><!--/.box-->
+            </div><!--/.operate-->
+
+            <h3>下拉器使用说明</h3>
+            <pre>
+                【Select Attributes 下拉器属性】
+                v-model 绑定值，即默认下拉项的显示值，默认空。
+                remote-source 远程下拉数据源，数组类型，默认空数组。格式 [{value:"隐藏值", label:"显示值"}]
+                ref 自定义根节点ref属性，可选，默认"peaDropDownArea"
+                show-input-alt 输入框是否显示title属性，可选，默认false
+                show-option-alt 下拉项是否显示title属性，可选，默认false
+                loading-text 远程加载时显示的文字，可选，默认"数据获取中"
+                no-match-text 搜索条件无匹配数据时显示的文字，可选，默认"无匹配数据"
+    
+                【Select Methods 下拉器事件】
+                remote-method 输入框输入事件，传递一个参数 val，为值当前输入框的值。
+    
+                【Option Attributes拉项属性】
+    
+                【Option Events 下拉项事件】
+                option-change 选择某一个下拉项时触发的事件，传递一个参数 o。o格式：{value:"选中项的隐藏值", label:"选中项的显示值"}
+            </pre>
+
+        </div><!--[/#app]-->
+    </div><!--/.wrap-->
+
+
+    <!--================================================================================-->
+    <!--                            JAVASCRIPT                                          -->
+    <!--================================================================================-->
+    <script src="assets/lib/vue@2.6.14/vue.min.js"></script>
+    <script src="assets/lib/axios/axios.min.js"></script>
+    <script src="assets/lib/mock/mock-min.js"></script>
+    <script src="assets/peace-ui/index.js"></script>
+    <script src="assets/peace-ui/peaceui-axios.js"></script>
+    <script>
+       
+        //——————————————————————————————————————————
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    
+                    // 律师下拉
+                    lawyerData: [], // 格式： [{value: "选项id", label: "选项显示名称"}]
+                    lawyerValue: '全部', // 选中后的选项id
+                    lawyerLabel: '', // 选中后的选项名称
+                    // 案由下拉
+                    causeData: [], // 格式： [{value: "选项id", label: "选项显示名称"}]
+                    causeValue: '全部', // 选中后的选项id
+                    causeLabel: '', // 选中后的选项名称
+                }
+            },
+
+
+            methods: {
+                // -------- 查询条件下拉组 --------
+                // 律师输入下拉
+                handleLawyerRemoteMethod(val){
+                    // console.log('律师输入值：', val);
+                    var word = val;
+                    if(word.replace(/([\s+])/g, '') !== ''){
+                        //elementUi.showAnimate();
+                        setTimeout(() => {
+                            getLawyerData(this, word);
+                            //elementUi.destroyAnimate();
+                        }, 100);
+                    }
+                    else{
+                        this.lawyerData = [];
+                    }
+                },
+                // 律师选中值发生变化时
+                handleLawyerOptionChange(o){
+                    // console.log('选中值发生变化值o：', o);
+                    this.lawyerValue = o.label;
+                },
+
+
+                // 案由输入下拉
+                handleCauseRemoteMethod(val){
+                    // console.log('案由输入值：', val);
+                    var word = val;
+                    if(word.replace(/([\s+])/g, '') !== ''){
+                        // elementUi.showAnimate();
+                        setTimeout(() => {
+                            getCauseData(this, word);
+                            // elementUi.destroyAnimate();
+                        }, 100);
+                    }
+                    else{
+                        this.causeData = [];
+                    }
+                },
+
+                // 案由选中值发生变化时
+                handleCauseOptionChange(o){
+                    // console.log('选中值发生变化值o：', o);
+                    this.causeValue = o.label;
+                },
+            },
+
+
+            // 创建
+            created() {
+                
+            },
+
+            // 挂载
+            mounted() {
+               
+            }
+        });
+
+
+
+
+        
+        //————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+        //                                                   函数库
+        //————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+        /*+————————————————FUNCTION————————————————+*/
+        //——————————————————————————————————————————
+        /**
+         * !! 获取律师下拉数据
+         * @param {object} $this vue实例化对象
+         * * @param {string} ps_keyword 输入关键词
+         */
+         function getLawyerData($this, ps_keyword){
+            let ls_lvshi = ps_keyword;
+            $axios({
+                debug: false,
+                vue: $this,
+                method: "post",
+                url: "../../aaa.ashx?params=1",
+                data: {
+                    "action": "",
+                    "user": "<%=s_user%>",
+                    "sjk": "<%=s_sjk%>",
+                    "menu_bh": "<%=s_menu_bh%>",
+                    "lvshi": ls_lvshi
+                }
+            }).then(res => {
+                // console.log('res：', res);
+                let result = res.data;
+                let source = result.data;
+                let newSource = source.map((item, index) => {
+                    // 返回以下这种格式： { value: 1001, label: "XX名称" }
+                    return { value: index + 1, label: item["lvshi"] };
+                });
+                // 添加一个默认项“全部”
+                if(newSource.length >=1 ){
+                    newSource.unshift({
+                        value: 0,
+                        label: "全部"
+                    });
+                }
+                $this.lawyerData = newSource;
+            }).catch(errs => {
+                
+            });
+        }
+
+
+
+
+
+         //——————————————————————————————————————————
+        /**
+         * !! 获取案由下拉数据
+         * @param {object} $this vue实例化对象
+         * @param {string} ps_keyword 输入关键词
+         */
+         function getCauseData($this, ps_keyword){
+            let ls_anyou = ps_keyword;
+            $axios({
+                debug: false,
+                vue: $this,
+                method: "post",
+                url: "../../aaa.ashx?params=2",
+                data: {
+                    "action": "",
+                    "user": "<%=s_user%>",
+                    "sjk": "<%=s_sjk%>",
+                    "menu_bh": "<%=s_menu_bh%>",
+                    "anyou": ls_anyou
+                }
+            }).then(res => {
+                // console.log('res：', res);
+                let result = res.data;
+                let source = result.data;
+                let newSource = source.map((item, index) => {
+                    // 返回以下这种格式： { value: 1001, label: "XX名称" }
+                    return { value: index + 1, label: item["anyou"] };
+                });
+                // 添加一个默认项“全部”
+                if(newSource.length >=1 ){
+                    newSource.unshift({
+                        value: 0,
+                        label: "全部"
+                    });
+                }
+                $this.causeData = newSource;
+            }).catch(errs => {
+                
+            });
+        }
+
+
+
+
+        //——————————————————————————————————————————
+        // todo: 获取律师下拉数据
+        Mock.setup({
+            timeout: "100-2000", // todo:延时m到n毫秒返回
+        });
+
+        // let sourceList1_mo = Mock.mock([{
+        //         "字段1": "",
+        //         "字段2": ""
+        //     }
+        // ]);
+        let lawyerList = Mock.mock({
+            "array|5-10": [{
+                "lvshi|+1": "@cname"
+            }]
+        });
+
+        Mock.mock("../../aaa.ashx?params=1", "post", (options) => {
+            // console.log('后台参数：', options);
+            var source = JSON.parse(options.body);
+            // var tmp_curpage = parseInt(source["前台传过来的某个变量"]);
+            var result = {"return":"ok", "data": lawyerList.array};
+            // var result = {"return":"error", "data":"获取数据失败"}
+            return result;
+        });
+
+
+        
+        //——————————————————————————————————————————
+        // todo: 获取案由下拉数据
+        Mock.setup({
+            timeout: "100-2000", // todo:延时m到n毫秒返回
+        });
+
+        // let sourceList1_mo = Mock.mock([{
+        //         "字段1": "",
+        //         "字段2": ""
+        //     }
+        // ]);
+        let causeList = Mock.mock({
+            "array|3-5": [{
+                "anyou|+1": ["人格权纠纷", "继承权纠纷", "财产权纠纷", "经济权纠纷", "著作权纠纷"]
+            }]
+        });
+
+        Mock.mock("../../aaa.ashx?params=2", "post", (options) => {
+            // console.log('后台参数：', options);
+            var source = JSON.parse(options.body);
+            // var tmp_curpage = parseInt(source["前台传过来的某个变量"]);
+            var result = {"return":"ok", "data": causeList.array};
+            // var result = {"return":"error", "data":"获取数据失败"}
+            return result;
+        });
+
+    </script>
+</body>
+</html>

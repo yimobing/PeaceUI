@@ -1,0 +1,89 @@
+/**
+* Peace UI 
+* 一套基于vue开发的前端框架
+* Version: 1.10.0
+* [适用] Vue 2.0
+* Author: Mufeng
+* QQ: 1614644937
+* Date: 2024.01.23
+* Update: 2024.01.25
+*/
+@charset "utf-8";
+
+
+/*+---------------- ----------------+*/
+* {
+	margin: 0;
+	padding: 0;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+
+/*+---------------- pea-select 下拉控件----------------+*/
+.pea-dropdown-area{
+	position: relative;
+	display: inline-block;
+}
+.pea-dropdown-area input[type="text"]{
+	padding: 11.5px 10px;
+	border: 1px solid #DCDFE6;
+	border-radius: 4px;
+}
+.pea-dropdown-area input[type="text"]:focus{
+	border-color: #409EFF;
+}
+
+.pea-dropdown-going,
+.pea-dropdown-nodata,
+.pea-dropdown-select{
+	position: absolute;
+	z-index: 999;
+	top: 45px;
+	left: 0;
+	/* width: calc(100% - 40px); */
+	width: 100%;
+	background: #fff;
+	border: 1px solid #E4E7ED;
+	box-shadow: 0 2px 5px #ccc;
+}
+
+.pea-dropdown-going,
+.pea-dropdown-nodata{
+	padding: 15px 15px;
+	text-align: center;
+	color: #999;
+	font-size: 14px;
+}
+.pea-dropdown-going{
+	
+}
+.pea-dropdown-nodata{
+	
+}
+.pea-dropdown-select{
+	max-height: 280px;
+	overflow-y: auto;
+}
+.pea-dropdown-select ul{
+	list-style-type: none;		
+}
+.pea-dropdown-select ul li{
+	padding: 8px 15px;
+	font-size: 14px;
+	cursor: pointer;
+}
+.pea-dropdown-select ul li:hover{
+	background-color: #F5F7FA;
+}
+.pea-dropdown-select ul li.on{
+	background-color: #F5F7FA;
+}
+.pea-dropdown-select ul li span{
+	padding: 8px 5px;
+}
