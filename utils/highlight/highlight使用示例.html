@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="网站名称">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>highlight使用示例</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+	<link type="text/css" rel="stylesheet" href="11.3.1/default.min.css">
+
+</head>
+<body>
+
+    <style>
+        html, body{ padding: 15px; }
+        * { margin: 0; padding: 0; }
+        .wrap{ width: 80%; margin: 0 auto; }
+        .grid__title{ text-align: center; font-size: 24px; font-weight: 550; }
+        .grid__form{ width: 70%; margin: 0 auto; padding: 20px; border: 2px solid blue; border-radius: 4px; }
+        .grid__form_row{ margin-top: 10px; }
+        .grid__form_row:first-child{ margin-top: 0; }
+        .grid__form_row label{ display: inline-block; width: 80px; }
+        .grid__form_row input{ width: 300px; padding: 8px 15px; border: 1px solid #ddd; border-radius: 4px; }
+    </style>
+
+    <div class="wrap">
+        <div class="grid">
+            <div class="grid__title"> highlight使用示例 </div>
+            <div class="grid__code">
+                <pre>
+					<code>
+                    [常用方法及注意事项]
+						Mock.js 内置了多个方法，但常用的方法如下：
+						· Mock.setup(timeout) 用于设置延时时长，模拟后端处理或返回数据的时间。
+							timeout 单位是毫秒，整数或字符串类型，整数类型表示一个具体的时间，字符串类型用"m-n"的方式表示随机 m到n毫秒。
+						· Mock.mock(url, type, function(v){}); // 拦截ajax请求并返回数据。 
+							url 请求地址，要同 ajax 中的 url 参数保持一致, 
+							type 请求方式，值为 get 或 post。若 ajax 有发送到服务器的数据(即有 data 参数)，则 type必须为post而不能为get，否则拦截失效(模拟数据失败)
+							function(v){} 一个函数返回模拟的数据，也可写成 (v) => {}
+
+						BUG 说明：在 Mock.setup(timeout) 对 ajax 貌似无效，但对 axios 却是有效的。
+						特别注意：因为实际项目中同一个页面可能会有好几个接口，但URL请求地址是一样的，为了让不同接口分别能模拟获取到数据，url一般会加上后辍 '?param=1', '?param=2', ?param=3'... 这种格式。eg. '/jk/get_user_info.ashx?param=1'
+
+						[使用示例]
+						Mock.setup({
+							// 设置延时时长，模拟后端处理或返回数据的时间。
+							// 格式1
+							timeout: 500, // 延时n毫秒返回
+							// 格式2
+							// timeout: "100-2000", // 延时m到n毫秒返回
+						});
+
+						// 拦截ajax请求并返回数据
+						Mock.mock("/jk/get_user_info.ashx?param=1", "post", function(v){
+							console.log('后台传过来的参数：', v);
+							// 关于 v.body 的类型为字符串或对象，分以下情况：
+							// axios 请求方式：post时它是对象, get时它是字符串
+							// ajax 请求方式：无论是get或post，它都是字符串
+							return Mock.mock({
+								// 下面是使用 mock 语法返回的前端需要的字段。eg.
+								"return": "ok",
+								"user_xm": "@cname", // 姓名，随机2-3个字符串的姓名，eg. 张三, 李四, 王五六
+								"user_sex|1": ["男", "女"], // 性别，随机男或女
+								"user_age|7-50": 7, // 年龄，随机 7到50岁
+							})
+						});
+					</code>
+                </pre>
+
+            </div><!--/.grid__code-->
+   
+        </div><!--/.grid-->
+    </div><!--/.wrap-->
+
+
+    <!--================================================================================-->
+    <!--                            JAVASCRIPT                                          -->
+    <!--================================================================================-->
+
+	 <script src="11.3.1/highlight.min.js"></script>
+    <script>
+	
+		hljs.highlightAll();
+	
+    </script>
+</body>
+</html>
