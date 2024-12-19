@@ -4,7 +4,7 @@
  * @Version: 1.0.0
  * @Author: Mufeng
  * @Date: 2024.12.12
- * @Pubdate: 2024.12.12
+ * @Pubdate: 2024.12.19
  * @官网： https://github.com/yimobing/peaceui
  */
 // 区县
@@ -782,9 +782,22 @@
                         if (otherItemNode.length != 0) {
                             otherItemNode[0].remove();
                         }
+                        // 创建节点
                         var manageNode = document.createElement('div');
                         manageNode.className = 'treeview__menu_handle ' + manageClassName;
                         parentNode.appendChild(manageNode);
+                        // 设置位移
+                        var offsetTop = utils.getElementTop(node),
+                         offsetLeft = utils.getElementLeft(node);
+                        // console.log('node：', node);
+                        // console.log('距离左侧x：', offsetLeft, '\n距离顶部y：', offsetTop);
+                        var top = offsetTop + 20,
+                            left = offsetLeft - 42;
+                        // console.log('top:', top, 'left:', left);
+                        manageNode.style.position = 'fixed';
+                        manageNode.style.top = top + 'px';
+                        manageNode.style.left = left + 'px';
+                        //
                         var operateHtml = helpers._getOperateHtml(me);
                         utils.appendHTML(operateHtml, manageNode);
                         _this.fnTreeItemManage(me);
@@ -1504,6 +1517,49 @@
             return h;
         },
 
+
+
+        /**
+         * 原生js获取元素到浏览器顶部的距离，即offsetTop
+         * 注：不能直接使用obj.offsetTop，因为它获取的是你绑定元素上边框相对离自己最近且position属性为非static的祖先元素的偏移量
+         * @param {HTML DOM} o DOM元素。
+         * @returns {number} 返回距离值
+         */
+        getElementTop: function(o) {
+            var actualTop = o.offsetTop;
+            var current = o.offsetParent;
+            while (current !== null) {
+                actualTop += current.offsetTop;
+                current = current.offsetParent;
+            }
+            // 当HTML节点有设置margin值时
+            var docStyle = this.getElementStyle(document.documentElement), // HTML节点
+                docMarTop = Math.ceil(docStyle.marginTop.toString().replace(/([\px]+)/g, ''));
+            actualTop += docMarTop;
+            return actualTop;
+        },
+        
+        
+        /**
+         * 原生js获取元素到浏览器左侧的距离，即offsetLeft
+         * 注：不能直接使用obj.offsetLeft，因为它获取的是你绑定元素上边框相对离自己最近且position属性为非static的祖先元素的偏移量
+         * @param {HTML DOM} element DOM元素。
+         * @returns {number} 返回距离值
+         */
+        getElementLeft: function(o) {
+            var actualLeft = o.offsetLeft;
+            var current = o.offsetParent;
+            while (current !== null) {
+                actualLeft += current.offsetLeft;
+                current = current.offsetParent;
+            }
+            // 当HTML节点宽度不是100%时
+            var winW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var docStyle = this.getElementStyle(document.documentElement), // HTML节点
+                docW = parseFloat(docStyle.width.toString().replace(/([\px]+)/g, ''));
+            actualLeft += ( window.innerWidth == docW || document.documentElement.clientWidth == docW || document.body.clientWidth == docW ) ? 0 : Math.ceil( (winW - docW) / 2 );
+            return actualLeft;
+        }
           
     };
 

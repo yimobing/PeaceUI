@@ -4,7 +4,7 @@
 * 树型菜单插件
 * Author：mufeng
 * Date: 2024.12.12
-* Update: 2024.12.12
+* Update: 2024.12.19
 */
 
 /*+ ----------------  ---------------- +*/
@@ -171,10 +171,8 @@
     filter: alpha(opacity = 70);
 }
 .treeview__menu_manage{
-    position: absolute;
-    z-index: 1;
-    top: 32px;
-    right: -40px;
+    position: fixed;
+    z-index: 10;
     display: block!important;
     background-color: #fff;
     border: 1px solid #EBEEF5;
