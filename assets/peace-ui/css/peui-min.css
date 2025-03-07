@@ -1,10 +1,10 @@
 @charset "utf-8";
 /**
-* [peaceui]
+* [peui-min]
 * 静静UI前端框架
 * Author：mufeng
 * Date: 2024.12.12
-* Update: 2024.12.12
+* Update: 2025.03.07
 */
 
 /*+ ================================================================================ +*/
@@ -65,7 +65,9 @@ html, body{
 
 html{ font-size: 20px; }
 @media only screen and (min-width: 400px){
-	html{font-size: 21.33333333px!important;}
+	html{ 
+		font-size: 21.33333333px!important;
+	}
 }
 @media only screen and (min-width: 414px){
 	html{font-size: 21px!important;}
@@ -197,4 +199,200 @@ pre {
 }
 pre, pre code {
     white-space: pre-wrap;
+}
+
+
+
+
+
+/*+ ---------------- 元素样式 ---------------- +*/
+.peui-flex {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -webkit-flex;
+	display: flex;
+	display: box;
+}
+.peui-flex_start {
+	align-items: flex-start;
+}
+.peui-flex_end {
+	align-items: flex-end;
+}
+.peui-flex_center {
+	align-items: center;
+}
+
+
+
+/*+ ---------------- 表单布局 ---------------- +*/
+.peui-label {
+	display: block;
+	width: 65px;
+	max-width: 100px;
+	text-align: right;
+	color: #666;
+	font-size: .6rem;
+}
+.peui-input[type="text"] {
+	padding: 0 10px;
+	height: 32px;
+}
+.peui-textarea {
+	min-height: 45px;
+	padding: 5px 8px;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.peui-input[type="text"],
+.peui-textarea {
+	width: 100%;
+	border: 1px solid #dbdbdb;
+	border-radius: 2px;
+	color: #555;
+	font-size: .6rem;
+}
+/* 输入框悬浮 */
+.peui-input[type="text"]:hover,
+.peui-textarea:hover {
+	border-color: #03A9F4;
+	border-color: #f8d5f1;
+}
+.peui-input[type="text"]:read-only:hover,
+.peui-textarea:read-only:hover,
+.peui-input[type="text"][readonly]:hover,
+.peui-textarea[readonly]:hover{
+	border-color: #dbdbdb;
+}
+.peui-input[type="text"]:disabled:hover,
+.peui-textarea:disabled:hover,
+.peui-input[type="text"][disabled]:hover,
+.peui-textarea[disabled]:hover{
+	border-color: #dbdbdb;
+	cursor: not-allowed!important;
+}
+/* 输入框聚焦 */
+.peui-input[type="text"]:focus,
+.peui-textarea:focus {
+	border-color: #f155ce;
+	color: #000;
+}
+.peui-form {
+	
+}
+.peui-row {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -webkit-flex;
+	display: flex;
+	display: box;
+	flex-wrap: wrap;
+}
+.peui-column {
+	
+}
+.peui-box {
+	
+}
+.peui-cell {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -webkit-flex;
+	display: flex;
+	display: box;
+	align-items: center;
+	/* flex-grow: 1; */
+	/* flex-shrink: 1; */
+	margin-right: 20px;
+	margin-bottom: 3px;
+}
+.peui-cell__hd {
+	margin-right: 15px;
+}
+.peui-cell__bd {
+	
+}
+
+/* 输入框为下拉类型 */
+.peui-box_drop {
+	position: relative;
+	cursor: pointer;
+}
+.peui-box_drop > input[type="text"],
+.peui-box_drop > textarea {
+	cursor: pointer!important;
+}
+.peui-box_drop > input[type="text"]:read-only:hover,
+.peui-box_drop > textarea:read-only:hover,
+.peui-box_drop > input[type="text"][readonly]:hover,
+.peui-box_drop > textarea[readonly]:hover{
+	border-color: #f155ce;
+}
+.peui-box_drop:after {
+	content: '';
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%) rotate(135deg);
+    -moz-transform: translateY(-50%) rotate(135deg);
+    -o-transform: translateY(-50%) rotate(135deg);
+    transform: translateY(-50%) rotate(135deg);
+    right: 10px;
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-style: solid;
+    border-width: 1px 1px 0 0;
+    border-color: #888;
+}
+/* 输入框仅底部边框 */
+.peui-textbox_border-bottoom {
+	border-width: 0 0 1px 0!important;
+	border-radius: 0!important;
+}
+
+
+/* 表单自适应、表单内容自动调整 */
+/* 
+1.超小屏幕（手机） 768px以下
+2.小屏设备（平板） 768px-992px
+3.中等屏幕（旧式电脑） 992px-1200px
+4.大屏设备（现代电脑） 1200px以上
+*/
+@media screen and (max-width: 1280px) {
+	.peui-cell {
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+}
+@media screen and (max-width: 992px) {
+	.peui-cell {
+		width: 22%;
+	}
+	.peui-cell__bd {
+		width: 100%;
+	}
+	.peui-input[type="text"],
+	.peui-textarea {
+		width: 100%!important;
+	}
+}
+@media screen and (max-width: 820px) {
+	.peui-cell {
+		width: 30.5%;
+	}
+}
+@media screen and (max-width: 768px) {
+	.peui-cell {
+		width: 30.5%;
+	}
+}
+@media screen and (max-width: 540px) {
+	.peui-cell {
+		width: 46.2%;
+	}
+}
+@media screen and (max-width: 480px) {
+	.peui-cell {
+		width: 100%;
+	}
 }

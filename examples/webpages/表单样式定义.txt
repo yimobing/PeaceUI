@@ -1,0 +1,17 @@
+
+
+
+
+peui-form           表单
+peui-group          一个分组
+peui-row            一行
+peui-column         一列
+peui-cell           一个单元格
+peui-cell__hd       单元格头部 head
+peui-cell__bd       单元格内容 body
+peui-label          表单字段，一般放在 peui-cell__hd 内部作为表单的左边文字
+peui-box            盒子，一般用于包裹 input, textarea 等单个元素
+
+
+
+
